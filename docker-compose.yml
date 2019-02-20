@@ -1,0 +1,29 @@
+version: '3.1'
+services:
+
+# MongoDB
+  mongo:    
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: trade
+      MONGO_INITDB_ROOT_PASSWORD: trade@123       
+    image: mongo
+    container_name: trade-app-db     
+    ports:
+      - '27017:27017'
+
+# NodeJS App
+  api:
+    build:
+      context: .
+    image: trade-app
+    container_name: trade-app
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/trade-app
+    links:
+      - mongo
+    command: "sh app-entry.sh"
+
+
+ 
