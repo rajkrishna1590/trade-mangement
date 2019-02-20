@@ -1,4 +1,3 @@
-# trade_mangement
-Trading Management
+# Trading Management
 
 To Start the application  - sh run.sh
