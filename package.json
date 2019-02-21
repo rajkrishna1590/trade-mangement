@@ -19,6 +19,7 @@
     "Trade",
     "Management"
   ],
+
   "author": "Msys Technologies",
   "license": "MIT",
   "bugs": {
@@ -26,7 +27,8 @@
   },
   "homepage": "https://github.com/rajkrishna1590/trade_mangement#readme",
   "eslintIgnore": [
-    "swagger/*"
+    "swagger/*",
+    "test/*"
   ],
   "dependencies": {
     "body-parser": "~1.18.3",
@@ -40,8 +42,19 @@
   },
   "devDependencies": {
     "babel-eslint": "~10.0.1",
+    "chai": "^4.2.0",
     "eslint": "~5.14.1",
     "eslint-config-airbnb-base": "~12.1.0",
-    "eslint-plugin-import": "~2.8.0"
+    "eslint-plugin-import": "~2.8.0",
+    "nyc": "^13.3.0",
+    "supertest": "^3.4.2"
+  },
+  "nyc": {
+    "instrument": true,
+    "per-file": true,
+    "exclude": [
+      "swagger/"
+    ],
+    "check-coverage": false
   }
 }

@@ -21,9 +21,10 @@ rootApp.use(swaggerConfig.url, swaggerConfig.swaggerUi.serve, swaggerConfig.swag
 
 module.exports = (eventEmittor, handlers, controllers) => (function expressServer() {
 	routeServiceProvider(express.Router, eventEmittor).registerRoutes(rootApp, handlers, controllers);
-	this.listen = function listenMain(port) {
+	this.listen = function listenMain(port, callback = () => {}) {
 		http.listen(port, (err) => {
 			logger.debug(err || 'app running in ', http.address());
+			callback(rootApp, http); // for testcases
 		});
 	};
 	return this;

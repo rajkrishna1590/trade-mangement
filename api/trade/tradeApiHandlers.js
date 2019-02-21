@@ -49,6 +49,8 @@ const createTradeHandler = createTradeController => function apiHandler(req, cal
 	createTradeController.createTrade(req.body).then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.CREATED.code);
+		} else if (result.error.messageCode === 'USER_NOT_FOUND') {
+			callback({}, result.error, {}, HTTP_RESPONSES.NOT_FOUND.code);
 		} else {
 			callback(result.error, result.error, {}, HTTP_RESPONSES.BAD_REQUEST.code);
 		}
@@ -64,6 +66,8 @@ const userTradeListHandler = userTradeListController => function apiHandler(req,
 	userTradeListController.getUserTradeList(req.params.userId).then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.SUCCESS.code);
+		} else if (result.error.messageCode === 'USER_NOT_FOUND') {
+			callback({}, result.error, {}, HTTP_RESPONSES.NOT_FOUND.code);
 		} else {
 			callback(result.error);
 		}

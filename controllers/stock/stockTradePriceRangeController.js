@@ -34,9 +34,9 @@ module.exports = function stockTradePriceRangeController(context) {
 		return tradeContext.getStockTradePriceRange(tradeQuery)
 			.then((data) => {
 				if (data.length === 0) {
-					return new FailureResult({
+					return new SuccessResult({
 						message: 'There are no trades in the given date range',
-						messageCode: 'TRADE_NOT_FOUND'
+						messageCode: 'TRADE_NOT_FOUND_IN_FILTER'
 					});
 				}
 				const retData = {

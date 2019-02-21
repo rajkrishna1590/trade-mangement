@@ -39,6 +39,8 @@ const stockTradeListHandler = stockTradeListController => function apiHandler(re
 	stockTradeListController.getStockTradeList(payload).then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.SUCCESS.code);
+		} else if (result.error.messageCode === 'STOCK_NOT_FOUND') {
+			callback({}, result.error, {}, HTTP_RESPONSES.NOT_FOUND.code);
 		} else {
 			callback(result.error);
 		}
@@ -58,8 +60,10 @@ const stockTradePriceRangeHandler = stockTradePriceRangeController => function a
 	stockTradePriceRangeController.getStockTradePriceRange(payload).then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.SUCCESS.code);
+		} else if (result.error.messageCode === 'STOCK_NOT_FOUND' || result.error.messageCode === 'TRADE_NOT_FOUND') {
+			callback({}, result.error, {}, HTTP_RESPONSES.NOT_FOUND.code);
 		} else {
-			callback(result.error);
+			callback({}, result.error, {}, HTTP_RESPONSES.BAD_REQUEST.code);
 		}
 	});
 };
