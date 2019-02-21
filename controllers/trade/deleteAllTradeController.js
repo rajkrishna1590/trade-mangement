@@ -4,7 +4,7 @@ const {
 	Logger,
 	LOGGER_CONSTANTS
 } = require('../../common');
-const tradeContext = require('../../models/trade/tradeContext');
+const tradeContext = require('../../db/trade/tradeContext');
 
 
 module.exports = function deleteAllTradeController(context) {
@@ -13,7 +13,13 @@ module.exports = function deleteAllTradeController(context) {
 	function deleteAllTrade() {
 		logger.debug('delete all trades');
 		return tradeContext.deleteAllTrade()
-			.then(data => new SuccessResult(data))
+			.then((data) => {
+				const res = {
+					count: data.result.n,
+					message: 'Trade(s) deleted'
+				};
+				return new SuccessResult(res);
+			})
 			.catch(e => new FailureResult(e));
 	}
 	return {

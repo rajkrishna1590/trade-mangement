@@ -2,7 +2,7 @@
   "name": "trade_mangement",
   "version": "1.0.0",
   "description": "Trade Management System",
-  "main": "server.js",
+  "main": "main.js",
   "scripts": {
     "start": "node main.js .env"
   },
@@ -24,14 +24,16 @@
     "body-parser": "~1.18.3",
     "express": "~4.16.4",
     "is-my-json-valid": "~2.19.0",
+    "moment": "^2.24.0",
     "mongodb": "~3.1.13",
     "uuid": "~3.3.2",
     "winston": "~3.2.1"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.14.1",
+    "babel-eslint": "~10.0.1",
+    "eslint": "~5.14.1",
     "eslint-config-airbnb-base": "~12.1.0",
-    "eslint-plugin-import": "~2.8.0"
+    "eslint-plugin-import": "~2.8.0",
+    "moment": "~2.24.0"
   }
 }

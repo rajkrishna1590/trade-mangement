@@ -4,7 +4,7 @@ const {
 	Logger,
 	LOGGER_CONSTANTS
 } = require('../../common');
-const tradeContext = require('../../models/trade/tradeContext');
+const tradeContext = require('../../db/trade/tradeContext');
 
 
 module.exports = function getTradeListController(context) {

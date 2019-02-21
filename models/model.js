@@ -28,19 +28,16 @@ class Model {
 						func: 'insert',
 						mesg: e
 					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_001',
-						type: 'app'
-					});
+					const error = new Error(e);
 					reject(error);
 				});
 		});
 	}
 
 	update(filter, newData, option) {
+		const collection = db.collection(this.collectionName);
 		return new Promise((resolve, reject) => {
-			this.collectionn.update(filter, newData, option)
+			collection.update(filter, newData, option)
 				.then((res) => {
 					resolve(res);
 				})
@@ -49,19 +46,16 @@ class Model {
 						func: 'update',
 						mesg: e
 					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_002',
-						type: 'app'
-					});
+					const error = new Error(e);
 					reject(error);
 				});
 		});
 	}
 
 	remove(data) {
+		const collection = db.collection(this.collectionName);
 		return new Promise((resolve, reject) => {
-			this.collectionn.remove(data)
+			collection.remove(data)
 				.then((res) => {
 					resolve(res);
 				})
@@ -70,30 +64,22 @@ class Model {
 						func: 'remove',
 						mesg: e
 					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_003',
-						type: 'app'
-					});
+					const error = new Error(e);
 					reject(error);
 				});
 		});
 	}
 
-	find(filter, option) {
+	find(filter, option = {}, sort = {}) {
 		const collection = db.collection(this.collectionName);
 		return new Promise((resolve, reject) => {
-			collection.find(filter, option).toArray((e, res) => {
+			collection.find(filter, option).sort(sort).toArray((e, res) => {
 				if (e) {
 					logger.error({
 						func: 'find',
 						mesg: e
 					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_004',
-						type: 'app'
-					});
+					const error = new Error(e);
 					reject(error);
 				}
 				resolve(res);
@@ -101,132 +87,20 @@ class Model {
 		});
 	}
 
-	findOneBySort(filter, sort) {
+	findOne(filter, option) {
+		const collection = db.collection(this.collectionName);
 		return new Promise((resolve, reject) => {
-			this.collectionn.find(filter).sort(sort).lean().exec()
-				.then((res) => {
-					resolve(res);
-				})
-				.catch((e) => {
+			collection.findOne(filter, (e, res) => {
+				if (e) {
 					logger.error({
-						func: 'findOneBySort',
+						func: 'findOne',
 						mesg: e
 					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_005',
-						type: 'app'
-					});
+					const error = new Error(e);
 					reject(error);
-				});
-		});
-	}
-
-	findOneBySortLimit(filter, option, sort, limit) {
-		return new Promise((resolve, reject) => {
-			this.collectionn.find(filter, option).sort(sort).limit(limit).lean()
-				.exec()
-				.then((res) => {
-					resolve(res);
-				})
-				.catch((e) => {
-					logger.error({
-						func: 'findOneBySortLimit',
-						mesg: e
-					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_006',
-						type: 'app'
-					});
-					reject(error);
-				});
-		});
-	}
-
-	findOneBySortSkipLimit(filter, option, sort, skip, limit) {
-		return new Promise((resolve, reject) => {
-			this.collectionn.find(filter, option).sort(sort).skip(skip).limit(limit)
-				.lean()
-				.exec()
-				.then((res) => {
-					resolve(res);
-				})
-				.catch((e) => {
-					logger.error({
-						func: 'findOneBySortSkipLimit',
-						mesg: e
-					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_007',
-						type: 'app'
-					});
-					reject(error);
-				});
-		});
-	}
-
-	findOneAndUpdate(filter, newData, option) {
-		return new Promise((resolve, reject) => {
-			this.collectionn.findOneAndUpdate(filter, newData, option)
-				.then((res) => {
-					resolve(res);
-				})
-				.catch((e) => {
-					logger.error({
-						func: 'findOneAndUpdate',
-						mesg: e
-					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_008',
-						type: 'app'
-					});
-					reject(error);
-				});
-		});
-	}
-
-	findWithColumn(filter, columns) {
-		return new Promise((resolve, reject) => {
-			this.collectionn.find(filter, columns).lean().exec()
-				.then((res) => {
-					resolve(res);
-				})
-				.catch((e) => {
-					logger.error({
-						func: 'findWithColumn',
-						mesg: e
-					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_009',
-						type: 'app'
-					});
-					reject(error);
-				});
-		});
-	}
-
-	findOneWithColumnBySort(filter, columns, sort) {
-		return new Promise((resolve, reject) => {
-			this.collectionn.find(filter, columns).sort(sort).lean().exec()
-				.then((res) => {
-					resolve(res[0]);
-				})
-				.catch((e) => {
-					logger.error({
-						func: 'findOneWithColumnBySort',
-						mesg: e
-					});
-					const error = new Error({
-						error: e,
-						code: 'DB_ERROR_010',
-						type: 'app'
-					});
-					reject(error);
-				});
+				}
+				resolve(res);
+			});
 		});
 	}
 }

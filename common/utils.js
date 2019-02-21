@@ -1,5 +1,5 @@
 const uuidV4 = require('uuid/v4');
-
+const moment = require('moment');
 
 // helpers is a library of generic helper functions non-specific to axios
 
@@ -12,7 +12,7 @@ const toString = Object.prototype.toString;
  * @returns {boolean} True if value is an Array, otherwise false
  */
 function isArray(val) {
-  return toString.call(val) === '[object Array]';
+	return toString.call(val) === '[object Array]';
 }
 
 /**
@@ -22,7 +22,7 @@ function isArray(val) {
  * @returns {boolean} True if value is an ArrayBuffer, otherwise false
  */
 function isArrayBuffer(val) {
-  return toString.call(val) === '[object ArrayBuffer]';
+	return toString.call(val) === '[object ArrayBuffer]';
 }
 /**
  * Determine if a value is a String
@@ -31,7 +31,7 @@ function isArrayBuffer(val) {
  * @returns {boolean} True if value is a String, otherwise false
  */
 function isString(val) {
-  return typeof val === 'string';
+	return typeof val === 'string';
 }
 
 /**
@@ -41,7 +41,7 @@ function isString(val) {
  * @returns {boolean} True if value is a Number, otherwise false
  */
 function isNumber(val) {
-  return typeof val === 'number';
+	return typeof val === 'number';
 }
 
 /**
@@ -51,7 +51,7 @@ function isNumber(val) {
  * @returns {boolean} True if the value is undefined, otherwise false
  */
 function isUndefined(val) {
-  return typeof val === 'undefined';
+	return typeof val === 'undefined';
 }
 
 /**
@@ -61,7 +61,7 @@ function isUndefined(val) {
  * @returns {boolean} True if value is an Object, otherwise false
  */
 function isObject(val) {
-  return val !== null && typeof val === 'object';
+	return val !== null && typeof val === 'object';
 }
 
 /**
@@ -71,16 +71,16 @@ function isObject(val) {
  * @returns {boolean} True if value is a Date, otherwise false
  */
 function isDate(val) {
-  return toString.call(val) === '[object Date]';
+	return toString.call(val) === '[object Date]';
 }
 
 function getCurrentDateString(D) {
-  D = isDate(D) ? D : new Date();
-  const pad = (num) => {
-    const s = `0${num}`;
-    return s.substr(s.length - 2);
-  };
-  return `${D.getFullYear()}/${pad((D.getMonth() + 1))}/${pad(D.getDate())}`;
+	D = isDate(D) ? D : new Date();
+	const pad = (num) => {
+		const s = `0${num}`;
+		return s.substr(s.length - 2);
+	};
+	return `${D.getFullYear()}/${pad((D.getMonth() + 1))}/${pad(D.getDate())}`;
 }
 
 
@@ -91,7 +91,7 @@ function getCurrentDateString(D) {
  * @returns {boolean} True if value is a Function, otherwise false
  */
 function isFunction(val) {
-  return toString.call(val) === '[object Function]';
+	return toString.call(val) === '[object Function]';
 }
 
 /**
@@ -101,7 +101,7 @@ function isFunction(val) {
  * @returns {boolean} True if value is a Stream, otherwise false
  */
 function isStream(val) {
-  return isObject(val) && isFunction(val.pipe);
+	return isObject(val) && isFunction(val.pipe);
 }
 
 /**
@@ -111,7 +111,7 @@ function isStream(val) {
  * @returns {String} The String freed of excess whitespace
  */
 function trim(str) {
-  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+	return str.replace(/^\s*/, '').replace(/\s*$/, '');
 }
 
 /**
@@ -127,31 +127,31 @@ function trim(str) {
  * @param {Function} fn The callback to invoke for each item
  */
 function forEach(obj, fn) {
-  // Don't bother if no value provided
-  if (obj === null || typeof obj === 'undefined') {
-    return;
-  }
+	// Don't bother if no value provided
+	if (obj === null || typeof obj === 'undefined') {
+		return;
+	}
 
-  // Force an array if not already something iterable
-  if (typeof obj !== 'object') {
-    /* eslint no-param-reassign:0 */
-    obj = [obj];
-  }
+	// Force an array if not already something iterable
+	if (typeof obj !== 'object') {
+		/* eslint no-param-reassign:0 */
+		obj = [obj];
+	}
 
-  if (isArray(obj)) {
-    // Iterate over array values
-    for (let i = 0, l = obj.length; i < l; i += 1) {
-      fn.call(null, obj[i], i, obj);
-    }
-  } else {
-    // Iterate over object keys
-    /* eslint no-restricted-syntax: ["error", "WithStatement", "BinaryExpression[operator='in']"] */
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        fn.call(null, obj[key], key, obj);
-      }
-    }
-  }
+	if (isArray(obj)) {
+		// Iterate over array values
+		for (let i = 0, l = obj.length; i < l; i += 1) {
+			fn.call(null, obj[i], i, obj);
+		}
+	} else {
+		// Iterate over object keys
+		/* eslint no-restricted-syntax: ["error", "WithStatement", "BinaryExpression[operator='in']"] */
+		for (const key in obj) {
+			if (Object.prototype.hasOwnProperty.call(obj, key)) {
+				fn.call(null, obj[key], key, obj);
+			}
+		}
+	}
 }
 
 /**
@@ -172,50 +172,50 @@ function forEach(obj, fn) {
  * @returns {Object} Result of all merge properties
  */
 function merge(/* obj1, obj2, obj3, ... */ ...args) {
-  const result = {};
+	const result = {};
 
-  function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
-      result[key] = merge(result[key], val);
-    } else {
-      result[key] = val;
-    }
-  }
+	function assignValue(val, key) {
+		if (typeof result[key] === 'object' && typeof val === 'object') {
+			result[key] = merge(result[key], val);
+		} else {
+			result[key] = val;
+		}
+	}
 
-  for (let i = 0, l = arguments.length; i < l; i += 1) {
-    forEach(args[i], assignValue);
-  }
-  return result;
+	for (let i = 0, l = arguments.length; i < l; i += 1) {
+		forEach(args[i], assignValue);
+	}
+	return result;
 }
 
 const getItemIndex = (items, item) => {
-  if (items instanceof Array) {
-    let i = -1;
-    items.forEach((val, index) => {
-      i = val === item ? index : i;
-    });
-    return i;
-  }
-  return -1;
+	if (items instanceof Array) {
+		let i = -1;
+		items.forEach((val, index) => {
+			i = val === item ? index : i;
+		});
+		return i;
+	}
+	return -1;
 };
 
 
 module.exports = {
-  isArray,
-  isArrayBuffer,
-  isString,
-  isNumber,
-  isObject,
-  isUndefined,
-  isDate,
-  getCurrentDateString,
-  isFunction,
-  isStream,
-  forEach,
-  merge,
-  trim,
-  uuidv4: uuidV4,
-  /* eslint no-restricted-globals: 0 */
-  isNaN,
-  getItemIndex
+	isArray,
+	isArrayBuffer,
+	isString,
+	isNumber,
+	isObject,
+	isUndefined,
+	isDate,
+	getCurrentDateString,
+	isFunction,
+	isStream,
+	forEach,
+	merge,
+	trim,
+	uuidv4: uuidV4,
+	/* eslint no-restricted-globals: 0 */
+	isNaN,
+	getItemIndex
 };
