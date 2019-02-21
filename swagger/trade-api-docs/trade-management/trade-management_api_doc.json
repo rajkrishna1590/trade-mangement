@@ -1,0 +1,234 @@
+{
+	"/trade-management/trades": {
+		"get": {
+			"tags": [
+				"trade-management"
+			],
+			"security": [
+				{
+					"authentication": []
+				}
+			],
+			"summary": "Get the list of trades",
+			"description": "Get the list of trades",
+			"parameters": [],
+			"responses": {
+				"200": {
+					"description": "Success"
+				},
+				"400": {
+					"description": "Bad Request"
+				},
+				"401": {
+					"description": "Un-Authorized"
+				},
+				"403": {
+					"description": "Forbidden"
+				},
+				"404": {
+					"description": "Not Found"
+				},
+				"500": {
+					"description": "Internal server error"
+				},
+				"502": {
+					"description": "Bad Gateway"
+				},
+				"504": {
+					"description": "Gateway Timeout"
+				}
+			}
+		},
+		"post": {
+			"tags": [
+				"trade-management"
+			],
+			"security": [
+				{
+					"authentication": []
+				}
+			],
+			"summary": "create trades",
+			"description": "create trades",
+			"parameters": [
+				{
+					"in": "body",
+					"name": "Body Params",
+					"schema": {
+						"required": true,
+						"type": "object",
+						"properties": {
+							"id": {
+								"required": true,
+								"type": "string",
+								"maxLength": 50
+							},
+							"type": {
+								"required": true,
+								"type": "string",
+								"enum": [
+									"buy",
+									"sell"
+								],
+								"maxLength": 4
+							},
+							"user": {
+								"required": true,
+								"type": "object",
+								"properties": {
+									"id": {
+										"required": true,
+										"type": "string",
+										"maxLength": 50
+									},
+									"name": {
+										"required": true,
+										"type": "string",
+										"maxLength": 50
+									}
+								}
+							},
+							"symbol": {
+								"required": true,
+								"type": "string",
+								"maxLength": 15
+							},
+							"shares": {
+								"required": true,
+								"type": "number",
+								"minimum": 10,
+								"maximum": 30
+							},
+							"price": {
+								"required": true,
+								"type": "number",
+								"maxLength": 15
+							},
+							"timestamp": {
+								"required": true,
+								"type": "string",
+								"pattern": {}
+							}
+						}
+					}
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Success"
+				},
+				"400": {
+					"description": "Bad Request"
+				},
+				"401": {
+					"description": "Un-Authorized"
+				},
+				"403": {
+					"description": "Forbidden"
+				},
+				"404": {
+					"description": "Not Found"
+				},
+				"500": {
+					"description": "Internal server error"
+				},
+				"502": {
+					"description": "Bad Gateway"
+				},
+				"504": {
+					"description": "Gateway Timeout"
+				}
+			}
+		}
+	},
+	"/trade-management/trades/users/{userId}": {
+		"get": {
+			"tags": [
+				"trade-management"
+			],
+			"security": [
+				{
+					"authentication": []
+				}
+			],
+			"summary": "Get the user list trades",
+			"description": "Get the user list trades",
+			"parameters": [
+				{
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"maxLength": 50,
+					"name": "userId"
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Success"
+				},
+				"400": {
+					"description": "Bad Request"
+				},
+				"401": {
+					"description": "Un-Authorized"
+				},
+				"403": {
+					"description": "Forbidden"
+				},
+				"404": {
+					"description": "Not Found"
+				},
+				"500": {
+					"description": "Internal server error"
+				},
+				"502": {
+					"description": "Bad Gateway"
+				},
+				"504": {
+					"description": "Gateway Timeout"
+				}
+			}
+		}
+	},
+	"/trade-management/erase-trades": {
+		"delete": {
+			"tags": [
+				"trade-management"
+			],
+			"security": [
+				{
+					"authentication": []
+				}
+			],
+			"summary": "delete all trades",
+			"description": "delete all trades",
+			"parameters": [],
+			"responses": {
+				"200": {
+					"description": "Success"
+				},
+				"400": {
+					"description": "Bad Request"
+				},
+				"401": {
+					"description": "Un-Authorized"
+				},
+				"403": {
+					"description": "Forbidden"
+				},
+				"404": {
+					"description": "Not Found"
+				},
+				"500": {
+					"description": "Internal server error"
+				},
+				"502": {
+					"description": "Bad Gateway"
+				},
+				"504": {
+					"description": "Gateway Timeout"
+				}
+			}
+		}
+	}
+}

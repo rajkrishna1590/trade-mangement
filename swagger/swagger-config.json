@@ -1,0 +1,26 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Msys Technologies",
+    "description": "**REST API DOCUMENTATION OF ROUTES**\n\nYou can try all REST operation using EXECUTE button \n"
+  },
+  "host": "",
+  "basePath": "/trade-mgmt-api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "authentication": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

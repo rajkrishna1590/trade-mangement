@@ -1,0 +1,180 @@
+{
+	"/stock-management/stocks": {
+		"get": {
+			"tags": [
+				"stock-management"
+			],
+			"security": [
+				{
+					"authentication": []
+				}
+			],
+			"summary": "Get the list of stock",
+			"description": "Get the list of stock",
+			"parameters": [],
+			"responses": {
+				"200": {
+					"description": "Success"
+				},
+				"400": {
+					"description": "Bad Request"
+				},
+				"401": {
+					"description": "Un-Authorized"
+				},
+				"403": {
+					"description": "Forbidden"
+				},
+				"404": {
+					"description": "Not Found"
+				},
+				"500": {
+					"description": "Internal server error"
+				},
+				"502": {
+					"description": "Bad Gateway"
+				},
+				"504": {
+					"description": "Gateway Timeout"
+				}
+			}
+		}
+	},
+	"/stock-management/stocks/{symbol}/trades": {
+		"get": {
+			"tags": [
+				"stock-management"
+			],
+			"security": [
+				{
+					"authentication": []
+				}
+			],
+			"summary": "Get the list of stock",
+			"description": "Get the list of stock",
+			"parameters": [
+				{
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"maxLength": 15,
+					"name": "symbol"
+				},
+				{
+					"in": "query",
+					"required": true,
+					"type": "string",
+					"enum": [
+						"buy",
+						"sell"
+					],
+					"maxLength": 4,
+					"name": "type"
+				},
+				{
+					"in": "query",
+					"required": true,
+					"type": "string",
+					"pattern": {},
+					"name": "start"
+				},
+				{
+					"in": "query",
+					"required": true,
+					"type": "string",
+					"pattern": {},
+					"name": "end"
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Success"
+				},
+				"400": {
+					"description": "Bad Request"
+				},
+				"401": {
+					"description": "Un-Authorized"
+				},
+				"403": {
+					"description": "Forbidden"
+				},
+				"404": {
+					"description": "Not Found"
+				},
+				"500": {
+					"description": "Internal server error"
+				},
+				"502": {
+					"description": "Bad Gateway"
+				},
+				"504": {
+					"description": "Gateway Timeout"
+				}
+			}
+		}
+	},
+	"/stock-management/stocks/{symbol}/price": {
+		"get": {
+			"tags": [
+				"stock-management"
+			],
+			"security": [
+				{
+					"authentication": []
+				}
+			],
+			"summary": "Get the list of stock",
+			"description": "Get the list of stock",
+			"parameters": [
+				{
+					"in": "path",
+					"required": true,
+					"type": "string",
+					"maxLength": 15,
+					"name": "symbol"
+				},
+				{
+					"in": "query",
+					"required": true,
+					"type": "string",
+					"pattern": {},
+					"name": "start"
+				},
+				{
+					"in": "query",
+					"required": true,
+					"type": "string",
+					"pattern": {},
+					"name": "end"
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Success"
+				},
+				"400": {
+					"description": "Bad Request"
+				},
+				"401": {
+					"description": "Un-Authorized"
+				},
+				"403": {
+					"description": "Forbidden"
+				},
+				"404": {
+					"description": "Not Found"
+				},
+				"500": {
+					"description": "Internal server error"
+				},
+				"502": {
+					"description": "Bad Gateway"
+				},
+				"504": {
+					"description": "Gateway Timeout"
+				}
+			}
+		}
+	}
+}
