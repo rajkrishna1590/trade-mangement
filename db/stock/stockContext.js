@@ -4,16 +4,14 @@ const {
 } = require('../../common');
 const Model = require('../../models/model');
 
-function TradeContext() {
-	const tradeModel = new Model('trade');
+function StockContext() {
+	const stockModel = new Model('stock');
 	const logger = Logger(LOGGER_CONSTANTS.CONTROLLER);
 
-	function getTradeList() {
-		return tradeModel.find({}, {}, {
-			id: 1
-		})
+	function getStockList() {
+		return stockModel.find({}, {}, {})
 			.then((res) => {
-				logger.debug('result get all trades :: ', res);
+				logger.debug('result get all stocks :: ', res);
 				return res;
 			})
 			.catch((e) => {
@@ -21,12 +19,12 @@ function TradeContext() {
 			});
 	}
 
-	function getTradeById(id) {
-		return tradeModel.findOne({
-			id
+	function getStockBySymbol(symbol) {
+		return stockModel.findOne({
+			symbol
 		}, {})
 			.then((res) => {
-				logger.debug('result get all trades :: ', res);
+				logger.debug('result get stock by symbol :: ', res);
 				return res;
 			})
 			.catch((e) => {
@@ -34,49 +32,10 @@ function TradeContext() {
 			});
 	}
 
-	function deleteAllTrade() {
-		return tradeModel.remove({})
-			.then((res) => {
-				logger.debug('delete all trades records count :: ', res.n);
-				return res;
-			})
-			.catch((e) => {
-				throw e;
-			});
-	}
-
-	function createTrade(trade) {
-		return tradeModel.insert(trade)
-			.then((res) => {
-				logger.debug('create trade :: ', res.result.n);
-				return res;
-			})
-			.catch((e) => {
-				throw e;
-			});
-	}
-
-	function getUserTradeList(userId) {
-		return tradeModel.find({
-			'user.id': userId
-		}, {}, {
-			id: 1
-		})
-			.then((res) => {
-				logger.debug('result get all user trades :: ', res);
-				return res;
-			})
-			.catch((e) => {
-				throw e;
-			});
-	}
 	return {
-		getTradeList,
-		deleteAllTrade,
-		createTrade,
-		getTradeById,
-		getUserTradeList
+		getStockBySymbol,
+		getStockList
 	};
 }
 
-module.exports = new TradeContext();
+module.exports = new StockContext();

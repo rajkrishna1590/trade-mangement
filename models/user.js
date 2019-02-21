@@ -1,21 +1,14 @@
 const validator = require('is-my-json-valid');
 
-const schema = require('../schemas/trade');
+const schema = require('../schemas/user');
 
 class Trade {
-	constructor(id = '', type = '', user = {}, symbol = '', shares = '', price = 0, timestamp = '') {
+	constructor(userId = '', userName = '', password = '') {
 		this.data = {};
-		this.schema = schema.CREATE_TRADE;
-		this.data.id = id;
-		this.data.type = type;
-		this.data.user = {
-			id: user.id,
-			name: user.name
-		};
-		this.data.symbol = symbol;
-		this.data.shares = shares;
-		this.data.price = price;
-		this.data.timestamp = timestamp;
+		this.schema = schema.CREATE_USER;
+		this.data.userId = userId;
+		this.data.userName = userName;
+		this.data.password = password;
 		this.valdiator = validator(this.schema);
 	}
 
