@@ -10,7 +10,10 @@ services:
     container_name: trade-app-db     
     ports:
       - '27017:27017'
-
+    volumes:
+      - ./mongo-seed:/mongo-seed
+     
+      
 # NodeJS App
   api:
     build:
