@@ -13,6 +13,8 @@ const {
 	API_TIMEOUT
 } = require('../../constants/apiConstants');
 
+const authService = require('./authServiceProvider')();
+
 const logger = Logger(LOGGER_CONSTANTS.SERVER);
 
 class SuccessAPIResult extends SuccessResult {
@@ -35,8 +37,7 @@ class FailureAPIResult extends FailureResult {
 const closureOfApiRoute = (routeConfig, controllerFn, eventEmittor) => async function commonApiHandler(req, res) {
 	const context = {
 		transactionID: req.header('transactionID') || utils.uuidv4(),
-		authToken: req.header('Authorization'),
-		username: req.header('userId')
+		authToken: req.header('Authorization')
 	};
 
 	if (!context.authToken || !context.authToken) {
@@ -45,15 +46,37 @@ const closureOfApiRoute = (routeConfig, controllerFn, eventEmittor) => async fun
 			.send(new FailureAPIResult('Your are not authorized to perform this action!', ERROR_CODES.AUTHORIZATION_FAILED));
 	}
 
-
-	const x = new Date();
-	const offset = Math.abs(x.getTimezoneOffset());
-	/* eslint radix:0 */
-	res.header('timezone-offset', `${(offset >= 0 ? '+' : '-') + parseInt(offset / 60)}:${offset % 60}`);
-	res.header('timezone', `${Intl.DateTimeFormat().resolvedOptions().timeZone}`);
-
-
 	if (!context.authToken || !context.authToken) {
+		return res
+			.status(HTTP_RESPONSES.AUTHORIZATION_FAILED.code)
+			.send(new FailureAPIResult('Your are not authorized to perform this action!', ERROR_CODES.AUTHORIZATION_FAILED));
+	}
+	const authSplit = context.authToken.split(' ');
+	if (authSplit[0] === 'Basic') {
+		try {
+			const credintials = Buffer.from(authSplit[1], 'base64').toString().split(':');
+			const username = credintials[0];
+			const password = credintials[1];
+			if (!authService.authenticate(username, password)) {
+				const error = {
+					message: 'Invalid credintials!',
+					messageCode: ERROR_CODES.AUTHORIZATION_FAILED
+				};
+				return res
+					.status(HTTP_RESPONSES.AUTHORIZATION_FAILED.code)
+					.send(new FailureAPIResult(error.message, '', error));
+			}
+		} catch (e) {
+			return res
+				.status(HTTP_RESPONSES.AUTHORIZATION_FAILED.code)
+				.send(new FailureAPIResult('Invalid token!', ERROR_CODES.AUTHORIZATION_FAILED));
+		}
+	} else if (authSplit[0] === 'Bearer') {
+		// todo impelement bearer auth
+		return res
+			.status(HTTP_RESPONSES.AUTHORIZATION_FAILED.code)
+			.send(new FailureAPIResult('Bearer token authentication not supported', ERROR_CODES.AUTHORIZATION_FAILED));
+	} else {
 		return res
 			.status(HTTP_RESPONSES.AUTHORIZATION_FAILED.code)
 			.send(new FailureAPIResult('Your are not authorized to perform this action!', ERROR_CODES.AUTHORIZATION_FAILED));
