@@ -4,6 +4,8 @@ const createTradeController = require('./trade/createTradeController');
 const userTradeListController = require('./trade/userTradeListController');
 const userListController = require('./user/userListController');
 const stockListController = require('./stock/stockListController');
+const stockTradeListController = require('./stock/stockTradeListController');
+const stockTradePriceRangeController = require('./stock/stockTradePriceRangeController');
 
 module.exports = {
 	trade: {
@@ -16,6 +18,8 @@ module.exports = {
 		userListController
 	},
 	stock: {
-		stockListController
+		stockListController,
+		stockTradeListController,
+		stockTradePriceRangeController
 	}
 };

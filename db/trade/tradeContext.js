@@ -70,12 +70,77 @@ function TradeContext() {
 				throw e;
 			});
 	}
+
+	function getStockTradeList(queryParam) {
+		return tradeModel.find({
+			symbol: queryParam.symbol,
+			type: queryParam.type,
+			timestamp: {
+				$gte: queryParam.start,
+				$lte: queryParam.end
+			}
+		}, {}, {
+			id: 1
+		})
+			.then((res) => {
+				logger.debug('result get all user trades :: ', res);
+				return res;
+			})
+			.catch((e) => {
+				throw e;
+			});
+	}
+
+	function isTradeExistsForSymbol(symbol) {
+		return tradeModel.findOne({
+			symbol
+		})
+			.then((res) => {
+				logger.debug('result get all user trades :: ', res);
+				return res;
+			})
+			.catch((e) => {
+				throw e;
+			});
+	}
+
+	function getStockTradePriceRange(queryParam) {
+		return tradeModel.aggregate([{
+			$match: {
+				symbol: queryParam.symbol,
+				timestamp: {
+					$gte: queryParam.start,
+					$lte: queryParam.end
+				}
+			}
+		}, {
+			$group: {
+				_id: null,
+				max: {
+					$max: '$price'
+				},
+				min: {
+					$min: '$price'
+				}
+			}
+		}])
+			.then((res) => {
+				logger.debug('result get all user trades :: ', res);
+				return res;
+			})
+			.catch((e) => {
+				throw e;
+			});
+	}
 	return {
 		getTradeList,
 		deleteAllTrade,
 		createTrade,
 		getTradeById,
-		getUserTradeList
+		getUserTradeList,
+		getStockTradeList,
+		getStockTradePriceRange,
+		isTradeExistsForSymbol
 	};
 }
 

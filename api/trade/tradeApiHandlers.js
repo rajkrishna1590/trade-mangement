@@ -45,6 +45,7 @@ const deleteAllTradeHandler = deleteAllTradeController => function apiHandler(re
  */
 const createTradeHandler = createTradeController => function apiHandler(req, callback) {
 	logger.debug('create trade', req.body);
+
 	createTradeController.createTrade(req.body).then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.CREATED.code);

@@ -87,13 +87,29 @@ class Model {
 		});
 	}
 
-	findOne(filter, option) {
+	findOne(filter) {
 		const collection = db.collection(this.collectionName);
 		return new Promise((resolve, reject) => {
 			collection.findOne(filter, (e, res) => {
 				if (e) {
 					logger.error({
 						func: 'findOne',
+						mesg: e
+					});
+					const error = new Error(e);
+					reject(error);
+				}
+				resolve(res);
+			});
+		});
+	}
+	aggregate(filter) {
+		const collection = db.collection(this.collectionName);
+		return new Promise((resolve, reject) => {
+			collection.aggregate(filter).toArray((e, res) => {
+				if (e) {
+					logger.error({
+						func: 'aggregate',
 						mesg: e
 					});
 					const error = new Error(e);

@@ -1,5 +1,5 @@
 const uuidV4 = require('uuid/v4');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 // helpers is a library of generic helper functions non-specific to axios
 
@@ -15,6 +15,16 @@ function isArray(val) {
 	return toString.call(val) === '[object Array]';
 }
 
+/**
+ * datetime conversion
+ *
+ * @param {*} dateTimeStr - datetime value
+ * @param {*} timezone
+ * @returns
+ */
+function convertDateTimeByTimeZone(dateTimeStr, timezone) {
+	return new Date(moment.tz(dateTimeStr, timezone).toISOString());
+}
 /**
  * Determine if a value is an ArrayBuffer
  *
@@ -217,5 +227,6 @@ module.exports = {
 	uuidv4: uuidV4,
 	/* eslint no-restricted-globals: 0 */
 	isNaN,
-	getItemIndex
+	getItemIndex,
+	convertDateTimeByTimeZone
 };

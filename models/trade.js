@@ -1,6 +1,7 @@
 const validator = require('is-my-json-valid');
 
 const schema = require('../schemas/trade');
+const utils = require('../common/utils');
 
 class Trade {
 	constructor(id = '', type = '', user = {}, symbol = '', shares = '', price = 0, timestamp = '') {
@@ -15,7 +16,7 @@ class Trade {
 		this.data.symbol = symbol;
 		this.data.shares = shares;
 		this.data.price = price;
-		this.data.timestamp = timestamp;
+		this.data.timestamp = utils.convertDateTimeByTimeZone(timestamp, 'America/Halifax');
 		this.valdiator = validator(this.schema);
 	}
 
