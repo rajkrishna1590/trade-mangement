@@ -16,9 +16,8 @@ const {
  * @param {*} tradeListHandler
  */
 const tradeListHandler = tradeListController => function apiHandler(req, callback) {
-	const pageParam = {};
 	logger.debug('get all');
-	tradeListController.getTradeList(pageParam).then((result) => {
+	tradeListController.getTradeList().then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.SUCCESS.code);
 		} else {
@@ -31,7 +30,7 @@ const tradeListHandler = tradeListController => function apiHandler(req, callbac
  * @param {*} deleteAllTradeHandler
  */
 const deleteAllTradeHandler = deleteAllTradeController => function apiHandler(req, callback) {
-	logger.debug();
+	logger.debug('delete all trades');
 	deleteAllTradeController.deleteAllTrade().then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.SUCCESS.code);
@@ -45,7 +44,7 @@ const deleteAllTradeHandler = deleteAllTradeController => function apiHandler(re
  * @param {*} createTradeHandler
  */
 const createTradeHandler = createTradeController => function apiHandler(req, callback) {
-	logger.debug(req.body);
+	logger.debug('create trade', req.body);
 	createTradeController.createTrade(req.body).then((result) => {
 		if (result.isSuccess()) {
 			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.CREATED.code);
@@ -54,6 +53,22 @@ const createTradeHandler = createTradeController => function apiHandler(req, cal
 		}
 	});
 };
+
+/**
+ * get list of trades for the user
+ * @param {*} userTradeListHandler
+ */
+const userTradeListHandler = userTradeListController => function apiHandler(req, callback) {
+	logger.debug('get all trades for the user', req.params);
+	userTradeListController.getUserTradeList(req.params.userId).then((result) => {
+		if (result.isSuccess()) {
+			callback(apiConstants.CONSTANTS.EMPTY, result, {}, HTTP_RESPONSES.SUCCESS.code);
+		} else {
+			callback(result.error);
+		}
+	});
+};
+
 module.exports = {
 	routes: [{
 		method: 'get',
@@ -62,6 +77,13 @@ module.exports = {
 		path: '/trades',
 		controller: 'controllers.trade.tradeListController',
 		inputs: {}
+	}, {
+		method: 'get',
+		apiHandler: userTradeListHandler,
+		description: 'Get the user list trades',
+		path: '/trades/users/:userId',
+		controller: 'controllers.trade.userTradeListController',
+		inputs: schema.GET_USER_TRADE
 	}, {
 		method: 'post',
 		apiHandler: createTradeHandler,
