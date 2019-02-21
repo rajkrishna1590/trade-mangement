@@ -25,6 +25,9 @@
     "url": "https://github.com/rajkrishna1590/trade_mangement/issues"
   },
   "homepage": "https://github.com/rajkrishna1590/trade_mangement#readme",
+  "eslintIgnore": [
+    "swagger/*"
+  ],
   "dependencies": {
     "body-parser": "~1.18.3",
     "express": "~4.16.4",
