@@ -4,7 +4,7 @@
   "description": "Trade Management System",
   "main": "server.js",
   "scripts": {
-    "test": "test"
+    "start": "node main.js .env"
   },
   "repository": {
     "type": "git",

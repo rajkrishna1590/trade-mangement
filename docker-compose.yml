@@ -5,7 +5,7 @@ services:
   mongo:    
     environment:
       MONGO_INITDB_ROOT_USERNAME: trade
-      MONGO_INITDB_ROOT_PASSWORD: trade@123       
+      MONGO_INITDB_ROOT_PASSWORD: trade123       
     image: mongo
     container_name: trade-app-db     
     ports:

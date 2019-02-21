@@ -7,16 +7,16 @@ const {
 const tradeContext = require('../../models/trade/tradeContext');
 
 
-module.exports = function getTradeListController(context) {
+module.exports = function deleteAllTradeController(context) {
 	const logger = Logger(LOGGER_CONSTANTS.CONTROLLER, context.transactionID);
 
-	function getTradeList() {
-		logger.debug('getTradeList calling');
-		return tradeContext.getTradeList()
+	function deleteAllTrade() {
+		logger.debug('delete all trades');
+		return tradeContext.deleteAllTrade()
 			.then(data => new SuccessResult(data))
 			.catch(e => new FailureResult(e));
 	}
 	return {
-		getTradeList
+		deleteAllTrade
 	};
 };
