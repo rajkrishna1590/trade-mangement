@@ -1,4 +1,4 @@
-# Welcome to Trade Management API!
+# Trade Management API!
  
 ## Prerequisite
 1. bash terminal
