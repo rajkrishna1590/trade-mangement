@@ -37,7 +37,7 @@
     "mongodb": "~3.1.13",
     "swagger-ui-express": "^4.0.2",
     "uuid": "~3.3.2",
-    "winston": "~3.2.1"
+    "winston": "~3.3.0"
   },
   "devDependencies": {
     "babel-eslint": "~10.0.1",
